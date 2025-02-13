@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playable Ad</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Top Bar (hidden initially) -->
+    <div class="top-bar">
+      <video id="mehVideo" preload="auto" style="display: none;" muted>
+        <source src="assets/topBar/meh.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="goodVideo" preload="auto" style="display: none;">
+        <source src="assets/topBar/good.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="excellentVideo" preload="auto" style="display: none;">
+        <source src="assets/topBar/excellent.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="brilliantVideo" preload="auto" style="display: none;">
+        <source src="assets/topBar/brilliant.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="brilliantLightVideo" preload="auto" style="display: none;">
+        <source src="assets/topBar/brilliantLight.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <video id="first" preload="auto" style="display: none;" muted>
+        <source src="assets/progressBar/first.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="second" preload="auto" style="display: none;" muted>
+        <source src="assets/progressBar/second.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="third" preload="auto" style="display: none;" muted>
+        <source src="assets/progressBar/third.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="fourth" preload="auto" style="display: none;" muted>
+        <source src="assets/progressBar/fourth.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Main Video Wrapper -->
+    <div class="video-wrapper">
+      <!-- Lobby video plays immediately -->
+      <video id="lobbyVideo" preload="auto" autoplay muted>
+        <source src="assets/lobbyScreen.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <button class="play-btn" id="playButton"></button>
+
+      <!-- Question 1 videos -->
+      <video id="Q1_entrance" preload="auto" style="display: none;">
+        <source src="assets/Q1/entrance.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q1_A" preload="auto" style="display: none;">
+        <source src="assets/Q1/A_correct.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q1_B" preload="auto" style="display: none;">
+        <source src="assets/Q1/B_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q1_C" preload="auto" style="display: none;">
+        <source src="assets/Q1/C_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q1_D" preload="auto" style="display: none;">
+        <source src="assets/Q1/D_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Question 2 videos -->
+      <video id="Q2_entrance" preload="auto" style="display: none;">
+        <source src="assets/Q2/entrance.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q2_A" preload="auto" style="display: none;">
+        <source src="assets/Q2/A_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q2_B" preload="auto" style="display: none;">
+        <source src="assets/Q2/B_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q2_C" preload="auto" style="display: none;">
+        <source src="assets/Q2/C_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q2_D" preload="auto" style="display: none;">
+        <source src="assets/Q2/D_correct.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Question 3 videos -->
+      <video id="Q3_entrance" preload="auto" style="display: none;">
+        <source src="assets/Q3/entrance.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q3_A" preload="auto" style="display: none;">
+        <source src="assets/Q3/A_correct.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q3_B" preload="auto" style="display: none;">
+        <source src="assets/Q3/B_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q3_C" preload="auto" style="display: none;">
+        <source src="assets/Q3/C_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q3_D" preload="auto" style="display: none;">
+        <source src="assets/Q3/D_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Question 4 videos -->
+      <video id="Q4_entrance" preload="auto" style="display: none;">
+        <source src="assets/Q4/entrance.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q4_A" preload="auto" style="display: none;">
+        <source src="assets/Q4/A_correct.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q4_B" preload="auto" style="display: none;">
+        <source src="assets/Q4/B_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q4_C" preload="auto" style="display: none;">
+        <source src="assets/Q4/C_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <video id="Q4_D" preload="auto" style="display: none;">
+        <source src="assets/Q4/D_wrong.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Trivia button wrapper -->
+      <div class="trivia-btn-wrapper" style="display: none;">
+        <button class="trivia-btn" id="aButton"></button>
+        <button class="trivia-btn" id="bButton"></button>
+        <button class="trivia-btn" id="cButton"></button>
+        <button class="trivia-btn" id="dButton"></button>
+      </div>
+    </div>
+
+    <!-- Trivia background (hidden until needed) -->
+    <div class="trivia-background">
+      <video id="triviaBackgroundVideo" preload="auto" style="display: none;" muted>
+        <source src="assets/triviaBackground.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="final-video-wrapper">
+        <video id="finalScreen" preload="auto" style="display: none;" muted>
+            <source src="assets\Finalscreen.webm" type="video/webm" />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <audio id="music" loop>
+      <source src="assets\music.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="musicEnding">
+      <source src="assets\musicEnding.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
