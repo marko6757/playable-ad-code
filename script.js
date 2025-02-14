@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Use the modern AudioContext constructor directly.
   const audioCtx = new AudioContext();
   let musicSource = null;
   let musicGainNode = null;
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const triviaBackgroundVideo = document.getElementById("triviaBackgroundVideo");
   const finalScreen = document.getElementById("finalScreen");
   
+  const music = document.getElementById("music");
   const musicEnding = document.getElementById("musicEnding");
   
   const Q1_entrance = document.getElementById("Q1_entrance");
@@ -65,7 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
   playButton.addEventListener("click", () => {
     if (areAllVideosPaused()) {
-      playLoopingMusic('assets/music.mp3', 0.3, 1);
+      // Play looping music using the Web Audio API.
+      playLoopingMusic(0.3, 1);
       
       lobbyVideo.style.display = "none";
       playButton.style.display = "none";
@@ -313,7 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   
-
   // Helper Functions
   
   function displayStartScreen() {
@@ -335,69 +337,49 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Plays the looping background music using the Web Audio API.
-  function playLoopingMusic(url, targetVolume = 1, fadeInDuration = 2) {
-    fetch(url)
-      .then(response => response.arrayBuffer())
-      .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
-      .then(audioBuffer => {
-        musicSource = audioCtx.createBufferSource();
-        musicSource.buffer = audioBuffer;
-        musicSource.loop = true;
-  
-        musicGainNode = audioCtx.createGain();
-        musicGainNode.gain.value = 0;
-  
-        musicSource.connect(musicGainNode);
-        musicGainNode.connect(audioCtx.destination);
-  
-        musicSource.start(0);
-  
-        musicGainNode.gain.linearRampToValueAtTime(
-          targetVolume,
-          audioCtx.currentTime + fadeInDuration
-        );
-      })
-      .catch(error => console.error('Error loading music:', error));
+  function playLoopingMusic(targetVolume = 1, fadeInDuration = 2) {
+    music.volume = 0;
+    music.loop = true; // Ensure looping (also set in HTML)
+    music.play();
+    const steps = 20;
+    const stepDuration = fadeInDuration / steps;
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      currentStep++;
+      music.volume = Math.min(targetVolume, (targetVolume / steps) * currentStep);
+      if (currentStep >= steps) {
+        clearInterval(interval);
+      }
+    }, stepDuration * 1000);
   }
   
   // Fades out the looping music, then (if provided) starts the ending music.
-  function fadeOutLoopingMusic(fadeOutDuration = 2, newAudioUrl = null) {
-    if (musicGainNode) {
-      const fadeOutEndTime = audioCtx.currentTime + fadeOutDuration;
-      
-      musicGainNode.gain.linearRampToValueAtTime(0, fadeOutEndTime);
-  
-      if (newAudioUrl) {
-        setTimeout(() => {
-          playEndingMusic(newAudioUrl, 0.3, fadeOutDuration);
-        }, fadeOutDuration * 1000);
+  function fadeOutLoopingMusic(fadeOutDuration = 2, newAudioElement = null) {
+    const initialVolume = music.volume;
+    const steps = 20;
+    const stepDuration = fadeOutDuration / steps;
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      currentStep++;
+      music.volume = Math.max(0, initialVolume * (1 - currentStep / steps));
+      if (currentStep >= steps) {
+        clearInterval(interval);
+        music.pause();
+        if (newAudioElement) {
+          newAudioElement.volume = 0;
+          newAudioElement.play();
+          const fadeInSteps = 20;
+          const fadeInStepDuration = fadeOutDuration / fadeInSteps;
+          let fadeInStep = 0;
+          const newInterval = setInterval(() => {
+            fadeInStep++;
+            newAudioElement.volume = Math.min(0.3, (0.3 / fadeInSteps) * fadeInStep);
+            if (fadeInStep >= fadeInSteps) {
+              clearInterval(newInterval);
+            }
+          }, fadeInStepDuration * 1000);
+        }
       }
-    }
-  }
-  
-  // Loads and plays the ending music (non-looping) with a fade-in effect.
-  function playEndingMusic(url, targetVolume = 1, fadeInDuration = 2) {
-    fetch(url)
-      .then(response => response.arrayBuffer())
-      .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
-      .then(audioBuffer => {
-        const endingSource = audioCtx.createBufferSource();
-        endingSource.buffer = audioBuffer;
-        endingSource.loop = false;
-  
-        const endingGainNode = audioCtx.createGain();
-        endingGainNode.gain.value = 0;
-  
-        endingSource.connect(endingGainNode);
-        endingGainNode.connect(audioCtx.destination);
-  
-        endingSource.start(0);
-  
-        endingGainNode.gain.linearRampToValueAtTime(
-          targetVolume,
-          audioCtx.currentTime + fadeInDuration
-        );
-      })
-      .catch(error => console.error('Error loading ending music:', error));
+    }, stepDuration * 1000);
   }
 });
